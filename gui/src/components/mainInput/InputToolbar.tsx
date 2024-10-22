@@ -160,7 +160,7 @@ function InputToolbar(props: InputToolbarProps) {
               });
             }}
           >
-            <span className="hidden md:inline">⏎ Enter</span>
+            <span className="hidden md:inline">⏎ 输入</span>
             <span className="md:hidden">⏎</span>
           </EnterButton>
         </div>

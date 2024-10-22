@@ -80,6 +80,7 @@ function useChatHandler(dispatch: Dispatch, ideMessenger: IIdeMessenger) {
           abortController.abort();
           break;
         }
+        console.log('_streamNormalInput方法', streamUpdate(stripImages((next.value as ChatMessage).content)))
         dispatch(
           streamUpdate(stripImages((next.value as ChatMessage).content)),
         );
@@ -121,6 +122,7 @@ function useChatHandler(dispatch: Dispatch, ideMessenger: IIdeMessenger) {
     return [slashCommand, stripImages(input)];
   };
 
+  // AI返回消息体
   async function _streamSlashCommand(
     messages: ChatMessage[],
     slashCommand: SlashCommandDescription,
@@ -129,6 +131,14 @@ function useChatHandler(dispatch: Dispatch, ideMessenger: IIdeMessenger) {
     selectedCode: RangeInFile[],
     contextItems: ContextItemWithId[],
   ) {
+    console.log("streamSlash方法执行，参数=》", {
+      messages,
+      slashCommand,
+      input,
+      historyIndex,
+      selectedCode,
+      contextItems,
+    });
     const abortController = new AbortController();
     const cancelToken = abortController.signal;
 
@@ -164,18 +174,23 @@ function useChatHandler(dispatch: Dispatch, ideMessenger: IIdeMessenger) {
         break;
       }
       if (typeof update === "string") {
+        console.log('useChatHandler消息体回显', update)
         dispatch(streamUpdate(update));
       }
     }
     clearInterval(checkActiveInterval);
   }
 
+  // 发送消息事件
   async function streamResponse(
     editorState: JSONContent,
     modifiers: InputModifiers,
     ideMessenger: IIdeMessenger,
     index?: number,
   ) {
+    console.log("streamResponse---:", [
+      ideMessenger
+    ]);
     try {
       if (typeof index === "number") {
         dispatch(resubmitAtIndex({ index, editorState }));

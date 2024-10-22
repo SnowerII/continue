@@ -23,3 +23,4 @@ keywords:
 - [Autocomplete](autocomplete/how-to-use-it.md) to recieve inline code suggestions as you type
 - [Edit](edit/how-to-use-it.md) to modify code without leaving your current file
 - [Actions](actions/how-to-use-it.md) to establish shortcuts for common use cases
+

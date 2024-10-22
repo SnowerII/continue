@@ -50,7 +50,7 @@ function EditorInset() {
         availableSlashCommands={availableSlashCommands}
         isMainInput={true}
         onEnter={(e, modifiers) => {
-          console.log("Enter: ", e, modifiers);
+          console.log("EnterText: ", e, modifiers);
         }}
       ></TipTapEditor>
     </EditorInsetDiv>

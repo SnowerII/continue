@@ -59,8 +59,12 @@ export class ContinueGUIWebviewViewProvider
     _token: vscode.CancellationToken,
   ): void | Thenable<void> {
     this._webview = webviewView.webview;
-    this._webview.onDidReceiveMessage((message) =>
-      this.handleWebviewMessage(message),
+    this._webview.onDidReceiveMessage((message) => {
+      if(message.messageType === 'log') {
+        console.log('onDidReceiveMessage', message);
+      }
+      return this.handleWebviewMessage(message);
+    }
     );
     webviewView.webview.html = this.getSidebarContent(
       this.extensionContext,

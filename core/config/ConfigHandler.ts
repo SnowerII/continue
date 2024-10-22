@@ -74,6 +74,7 @@ class ProfileLifecycleManager {
       return this.pendingConfigPromise;
     }
 
+    
     // Set pending config promise
     this.pendingConfigPromise = new Promise(async (resolve, reject) => {
       const newConfig = await this.profileLoader.doLoadConfig();
@@ -84,6 +85,7 @@ class ProfileLifecycleManager {
       );
 
       this.savedConfig = newConfig;
+      // console.log("读取配置", this.savedConfig);
       resolve(newConfig);
     });
 
@@ -269,6 +271,9 @@ export class ConfigHandler {
   }
 
   getSerializedConfig(): Promise<BrowserSerializedContinueConfig> {
+    console.log("getSerializedConfig 调用", this.currentProfile.getSerializedConfig(
+      this.additionalContextProviders,
+    ));
     return this.currentProfile.getSerializedConfig(
       this.additionalContextProviders,
     );

@@ -48,6 +48,7 @@ export default async function doLoadConfig(
     workOsAccessToken,
     overrideConfigJson,
   );
+  
   newConfig.allowAnonymousTelemetry =
     newConfig.allowAnonymousTelemetry && (await ide.isTelemetryEnabled());
 
@@ -88,7 +89,7 @@ export default async function doLoadConfig(
     newConfig,
     controlPlaneProxyInfo,
   );
-
+  // console.log("doloadconfig读取配置", newConfig);
   return newConfig;
 }
 

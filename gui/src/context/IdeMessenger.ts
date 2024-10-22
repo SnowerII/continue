@@ -14,6 +14,7 @@ interface vscode {
 
 declare const vscode: any;
 
+// 请求方法体类型声明
 export interface IIdeMessenger {
   post<T extends keyof FromWebviewProtocol>(
     messageType: T,
@@ -65,6 +66,7 @@ export class IdeMessenger implements IIdeMessenger {
     );
   }
 
+  // 实际请求发送事件
   private _postToIde(messageType: string, data: any, messageId?: string) {
     if (typeof vscode === "undefined") {
       if (isJetBrains()) {
@@ -93,6 +95,10 @@ export class IdeMessenger implements IIdeMessenger {
       messageType,
       data,
     };
+    // 由于getOpenFiles会轮询，所以屏蔽
+    if(msg.messageType !== 'getOpenFiles') {
+      console.log('vscode发送消息', msg)
+    }
     vscode.postMessage(msg);
   }
 
@@ -147,11 +153,13 @@ export class IdeMessenger implements IIdeMessenger {
     }) as any;
   }
 
+  // 请求发送事件
   async *streamRequest<T extends keyof FromWebviewProtocol>(
     messageType: T,
     data: FromWebviewProtocol[T][0],
     cancelToken?: AbortSignal,
   ): FromWebviewProtocol[T][1] {
+    console.log('触发streamRequest', {messageType, data, cancelToken})
     const messageId = uuidv4();
 
     this.post(messageType, data, messageId);
@@ -203,6 +211,7 @@ export class IdeMessenger implements IIdeMessenger {
     messages: ChatMessage[],
     options: LLMFullCompletionOptions = {},
   ): AsyncGenerator<ChatMessage, PromptLog> {
+    console.log('llmStreamChat输出', {modelTitle, cancelToken, messages, options})
     const gen = this.streamRequest(
       "llm/streamChat",
       {

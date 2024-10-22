@@ -63,9 +63,11 @@ import {
   slashCommandFromPromptFile,
 } from "./promptFile.js";
 
+// 读取config文件
 function resolveSerializedConfig(filepath: string): SerializedContinueConfig {
   let content = fs.readFileSync(filepath, "utf8");
   const config = JSONC.parse(content) as unknown as SerializedContinueConfig;
+  console.log("config 通过fs读取:", config);
   if (config.env && Array.isArray(config.env)) {
     const env = {
       ...process.env,
@@ -103,6 +105,7 @@ function loadSerializedConfig(
   if (!config) {
     try {
       config = resolveSerializedConfig(configPath);
+      // console.log("overrideConfigJson", config);
     } catch (e) {
       throw new Error(`Failed to parse config.json: ${e}`);
     }
@@ -585,12 +588,14 @@ async function loadFullConfigNode(
     ideType,
     overrideConfigJson,
   );
+  // console.log("loadFullConfigNode打印", serialized);
 
   // Convert serialized to intermediate config
   let intermediate = await serializedToIntermediateConfig(serialized, ide);
 
   // Apply config.ts to modify intermediate config
   const configJsContents = await buildConfigTs();
+  console.log("configJsContents file:", configJsContents);
   if (configJsContents) {
     try {
       // Try config.ts first
@@ -599,6 +604,7 @@ async function loadFullConfigNode(
 
       try {
         module = await import(configJsPath);
+        console.log("import file:", [module, configJsPath]);
       } catch (e) {
         console.log(e);
         console.log(
@@ -606,6 +612,7 @@ async function loadFullConfigNode(
         );
         try {
           module = await import(`file://${configJsPath}`);
+          
         } catch (e) {
           throw new Error("Could not load config.ts as file url either", {
             cause: e,

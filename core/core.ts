@@ -368,13 +368,14 @@ export class Core {
       msg: Message<ToCoreProtocol["llm/streamChat"][0]>,
     ) {
       const config = await configHandler.loadConfig();
-
+      console.log("llmStream config=>", config);
       // Stop TTS on new StreamChat
       if (config.experimental?.readResponseTTS) {
         void TTS.kill();
       }
-
+      // 与语言AI模型请求交互
       const model = await configHandler.llmFromTitle(msg.data.title);
+      console.log("llmStreamChat寻找模型 : ", model);
       const gen = model.streamChat(
         msg.data.messages,
         msg.data.completionOptions,
@@ -405,9 +406,10 @@ export class Core {
       return { done: true, content: next.value };
     }
 
-    on("llm/streamChat", (msg) =>
-      llmStreamChat(this.configHandler, this.abortedMessageIds, msg),
-    );
+    on("llm/streamChat", (msg) => {
+      console.log("llm/streamCha截收消息体", msg);
+      return llmStreamChat(this.configHandler, this.abortedMessageIds, msg);
+    });
 
     async function* llmStreamComplete(
       configHandler: ConfigHandler,

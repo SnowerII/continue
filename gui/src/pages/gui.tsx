@@ -224,7 +224,7 @@ function GUI() {
           setLocalStorage("ftc", 1);
         }
       }
-
+      
       streamResponse(editorState, modifiers, ideMessenger);
 
       // Increment localstorage counter for popup

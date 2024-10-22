@@ -46,6 +46,7 @@ type State = {
   selectedProfileId: string;
 };
 
+// 消息数据管理
 const initialState: State = {
   history: [],
   contextItems: [],
@@ -80,6 +81,7 @@ const initialState: State = {
   selectedProfileId: "local",
 };
 
+// 消息监听器
 export const stateSlice = createSlice({
   name: "state",
   initialState,
@@ -272,7 +274,9 @@ export const stateSlice = createSlice({
       state.isGatheringContext = false;
       state.active = false;
     },
+    // 返回消息体的更新渲染（回答消息）
     streamUpdate: (state, action: PayloadAction<string>) => {
+      console.log('streamUpdate', action)
       if (state.history.length) {
         state.history[state.history.length - 1].message.content +=
           action.payload;

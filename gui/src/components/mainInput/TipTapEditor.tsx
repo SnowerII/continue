@@ -601,7 +601,6 @@ function TipTapEditor(props: TipTapEditorProps) {
       if (!json.content?.some((c) => c.content)) {
         return;
       }
-
       props.onEnter(json, modifiers);
 
       if (props.isMainInput) {

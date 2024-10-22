@@ -106,6 +106,7 @@ async function resolveEditorContent(
       fullInput: stripImages(parts),
       selectedCode,
     };
+    // 发送消息给ai模型
     const result = await ideMessenger.request("context/getContextItems", data);
     if (result.status === "success") {
       const resolvedItems = result.content;
@@ -143,6 +144,7 @@ async function resolveEditorContent(
         fullInput: stripImages(parts),
         selectedCode,
       });
+      console.log('打印返回的contextItems', result)
       if (result.status === "success") {
         return result.content;
       } else {
@@ -165,7 +167,6 @@ async function resolveEditorContent(
       parts = [{ type: "text", text: lastPart }];
     }
   }
-
   return [contextItems, selectedCode, parts];
 }
 
