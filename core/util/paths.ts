@@ -67,6 +67,7 @@ export function getSessionsListPath(): string {
 
 export function getConfigJsonPath(ideType: IdeType = "vscode"): string {
   const p = path.join(getContinueGlobalPath(), "config.json");
+  console.log("获取config.json文件地址", p);
   if (!fs.existsSync(p)) {
     if (ideType === "jetbrains") {
       fs.writeFileSync(p, JSON.stringify(defaultConfigJetBrains, null, 2));

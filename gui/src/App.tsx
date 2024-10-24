@@ -9,6 +9,7 @@ import { useVscTheme } from "./hooks/useVscTheme";
 import { AddNewModel, ConfigureProvider } from "./pages/AddNewModel";
 import ErrorPage from "./pages/error";
 import GUI from "./pages/gui";
+import CustomLogin from "./pages/customLogin";
 import History from "./pages/history";
 import MigrationPage from "./pages/migration";
 import MonacoPage from "./pages/monaco";
@@ -29,6 +30,10 @@ const router = createMemoryRouter([
       {
         path: "/",
         element: <GUI />,
+      },
+      {
+        path: "/login",
+        element: <CustomLogin />,
       },
       {
         path: "/history",

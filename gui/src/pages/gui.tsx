@@ -61,6 +61,7 @@ import {
 } from "../util";
 import { FREE_TRIAL_LIMIT_REQUESTS } from "../util/freeTrial";
 import { getLocalStorage, setLocalStorage } from "../util/localStorage";
+import { useNavigate } from "react-router-dom";
 
 const TopGuiDiv = styled.div<{
   showScrollbar?: boolean;
@@ -160,6 +161,18 @@ function GUI() {
   const topGuiDivRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState<boolean>(false);
   const state = useSelector((state: RootState) => state.state);
+
+  const logState = useSelector((state: RootState) => state.loginSlice);
+  const navigate = useNavigate();
+
+  const checkLogin = () => {
+    console.log("检查logState", logState.uid)
+    if(!logState.uid) {
+      navigate('/login')
+    }
+  }
+  checkLogin();
+
   const { saveSession, getLastSessionId, loadLastSession } =
     useHistory(dispatch);
 

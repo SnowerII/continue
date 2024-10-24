@@ -164,6 +164,7 @@ class FileSystemIde implements IDE {
   }
 
   writeFile(path: string, contents: string): Promise<void> {
+    // console.log("触发writeFile", [path, contents]);
     return new Promise((resolve, reject) => {
       fs.writeFile(path, contents, (err) => {
         if (err) {

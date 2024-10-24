@@ -4,6 +4,7 @@ import miscReducer from "./slices/miscSlice";
 import serverStateReducer from "./slices/serverStateReducer";
 import stateReducer from "./slices/stateSlice";
 import uiStateReducer from "./slices/uiStateSlice";
+import loginSliceReducer from "./slices/loginSlice";
 
 import { createTransform, persistReducer, persistStore } from "redux-persist";
 import { createFilter } from "redux-persist-transform-filter";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   misc: miscReducer,
   uiState: uiStateReducer,
   serverState: serverStateReducer,
+  loginSlice: loginSliceReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
