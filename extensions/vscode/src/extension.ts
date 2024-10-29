@@ -32,8 +32,8 @@ async function dynamicImportAndActivate(context: vscode.ExtensionContext) {
 
 export function activate(context: vscode.ExtensionContext) {
   setupCa();
-  console.log('activate返回挂载', dynamicImportAndActivate(context));
-  // return dynamicImportAndActivate(context);
+  // console.log('activate返回挂载', dynamicImportAndActivate(context));
+  return dynamicImportAndActivate(context);
 }
 
 export function deactivate() {

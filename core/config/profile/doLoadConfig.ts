@@ -48,6 +48,7 @@ export default async function doLoadConfig(
     workOsAccessToken,
     overrideConfigJson,
   );
+  // console.log("doloadconfig读取配置111", newConfig);
   
   newConfig.allowAnonymousTelemetry =
     newConfig.allowAnonymousTelemetry && (await ide.isTelemetryEnabled());
@@ -84,12 +85,12 @@ export default async function doLoadConfig(
       controlPlaneProxyInfo,
     );
   }
-
+  
   newConfig = await injectControlPlaneProxyInfo(
     newConfig,
     controlPlaneProxyInfo,
   );
-  // console.log("doloadconfig读取配置", newConfig);
+  // console.log("doloadconfig读取配置222", newConfig);
   return newConfig;
 }
 

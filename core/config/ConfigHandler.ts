@@ -76,6 +76,8 @@ class ProfileLifecycleManager {
 
     
     // Set pending config promise
+    // 异步读取config
+    console.log("promise异步读取config");
     this.pendingConfigPromise = new Promise(async (resolve, reject) => {
       const newConfig = await this.profileLoader.doLoadConfig();
 
@@ -289,6 +291,7 @@ export class ConfigHandler {
 
   async llmFromTitle(title?: string): Promise<ILLM> {
     const config = await this.loadConfig();
+    console.log("读取config", config);
     const model = config.models.find((m) => m.title === title);
     if (!model) {
       if (title === ONBOARDING_LOCAL_MODEL_TITLE) {

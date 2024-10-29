@@ -95,10 +95,11 @@ export class IdeMessenger implements IIdeMessenger {
       messageType,
       data,
     };
-    // 由于getOpenFiles会轮询，所以屏蔽
+    // 由于getOpenFiles会轮询，所以屏蔽掉防止打印过多
     if(msg.messageType !== 'getOpenFiles') {
       console.log('vscode发送消息', msg)
     }
+    // 和vscode进行postmessage交互
     vscode.postMessage(msg);
   }
 

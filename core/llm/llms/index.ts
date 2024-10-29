@@ -79,6 +79,7 @@ const LLMs = [
   Mock,
 ];
 
+// 根据config配置里的provider寻找模型
 export async function llmFromDescription(
   desc: ModelDescription,
   readFile: (filepath: string) => Promise<string>,

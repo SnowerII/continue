@@ -368,7 +368,7 @@ export class Core {
       msg: Message<ToCoreProtocol["llm/streamChat"][0]>,
     ) {
       const config = await configHandler.loadConfig();
-      console.log("llmStream config=>", config);
+      // console.log("llmStream config=>", config);
       // Stop TTS on new StreamChat
       if (config.experimental?.readResponseTTS) {
         void TTS.kill();
@@ -395,6 +395,7 @@ export class Core {
           });
           break;
         }
+         // 迭代逐次的返回消息给视图
         yield { content: next.value.content };
         next = await gen.next();
       }
@@ -402,7 +403,7 @@ export class Core {
       if (config.experimental?.readResponseTTS && "completion" in next.value) {
         void TTS.read(next.value?.completion);
       }
-
+      // 返回最终消息给视图
       return { done: true, content: next.value };
     }
 

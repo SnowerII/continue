@@ -211,9 +211,10 @@ function isContextProviderWithParams(
   return (contextProvider as ContextProviderWithParams).name !== undefined;
 }
 
+// 组装最终config配置
 /** Only difference between intermediate and final configs is the `models` array */
 async function intermediateToFinalConfig(
-  config: Config,
+  config: Config, // config配置文件内容
   ide: IDE,
   ideSettings: IdeSettings,
   uniqueId: string,
@@ -571,6 +572,7 @@ async function buildConfigTs() {
   return fs.readFileSync(getConfigJsPath(), "utf8");
 }
 
+// 读取完整的configNode节点
 async function loadFullConfigNode(
   ide: IDE,
   workspaceConfigs: ContinueRcJson[],
@@ -592,10 +594,11 @@ async function loadFullConfigNode(
 
   // Convert serialized to intermediate config
   let intermediate = await serializedToIntermediateConfig(serialized, ide);
+  // console.log("serializedToIntermediateConfig打印", intermediate);
 
   // Apply config.ts to modify intermediate config
   const configJsContents = await buildConfigTs();
-  console.log("configJsContents file:", configJsContents);
+  // console.log("configJsContents file:", configJsContents);
   if (configJsContents) {
     try {
       // Try config.ts first
@@ -627,6 +630,7 @@ async function loadFullConfigNode(
         throw new Error("config.ts does not export a modifyConfig function.");
       }
       intermediate = module.modifyConfig(intermediate);
+      // console.log("modifyConfig打印", intermediate);
     } catch (e) {
       console.log("Error loading config.ts: ", e);
     }
@@ -646,11 +650,13 @@ async function loadFullConfigNode(
         throw new Error("config.ts does not export a modifyConfig function.");
       }
       intermediate = module.modifyConfig(intermediate);
+      // console.log("modifyConfig打印", intermediate);
     } catch (e) {
       console.log("Error loading remotely set config.js: ", e);
     }
   }
 
+  // 最终得到的config配置
   // Convert to final config format
   const finalConfig = await intermediateToFinalConfig(
     intermediate,
@@ -660,6 +666,7 @@ async function loadFullConfigNode(
     writeLog,
     workOsAccessToken,
   );
+  console.log("finalConfig", finalConfig);
   return finalConfig;
 }
 
